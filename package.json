@@ -1,0 +1,12 @@
+{
+  "name": "@combat-ui/symfony-bundle",
+  "version": "0.6.0",
+  "description": "A bundle that wraps the Combat UI framework into usable components for Symfony/Twig",
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  }
+}

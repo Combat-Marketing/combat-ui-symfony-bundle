@@ -1,0 +1,56 @@
+{
+    "name": "combat-ui/core-bundle",
+    "description": "A bundle containing UI elements usable in OpenDxp that use the Combat UI framework",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Jessica Benedictus",
+            "email": "jessica@combat.nl"
+        },
+        {
+            "name": "Christiaan van Dam",
+            "email": "chris@combat.nl"
+        }
+    ],
+    "require": {
+        "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
+        "symfony/config": "^7.4",
+        "symfony/dependency-injection": "^7.4",
+        "symfony/http-kernel": "^7.4",
+        "symfony/twig-bundle": "^7.4",
+        "symfony/webpack-encore-bundle": "^2.1.1",
+        "symfony/yaml": "^7.4",
+        "twig/twig": "^3.21"
+    },
+    "require-dev": {
+        "codeception/codeception": "^5.3.5",
+        "codeception/stub": "^4.3",
+        "codeception/module-asserts": "^3.2",
+        "codeception/module-symfony": "^3.8",
+        "phpstan/phpstan": "2.1.33",
+        "phpstan/phpstan-symfony": "^2.0.9",
+        "phpunit/phpunit": "^10.5",
+        "symfony/framework-bundle": "^7.4",
+        "symfony/runtime": "^7.4"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CombatUI\\Bundle\\CoreBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CombatUI\\Bundle\\CoreBundle\\Tests\\": "tests"
+        },
+        "files": [
+            "kernel/Kernel.php"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
+    }
+}
