@@ -1,12 +1,41 @@
 {
-  "name": "@combat-ui/symfony-bundle",
-  "version": "0.6.0",
-  "description": "A bundle that wraps the Combat UI framework into usable components for Symfony/Twig",
-  "license": "MIT",
-  "author": "",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  }
+    "name": "@combat-ui/symfony-bundle",
+    "version": "0.6.0",
+    "description": "A bundle that wraps the Combat UI framework into usable components for Symfony/Twig",
+    "bugs": {
+        "url": "https://github.com/Combat-Marketing/combat-ui-symfony-bundle/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Combat-Marketing/combat-ui-symfony-bundle.git"
+    },
+    "license": "MIT",
+    "private": true,
+    "authors": [
+        {
+            "name": "Jessica Benedictus",
+            "email": "jessica@combat.nl"
+        },
+        {
+            "name": "Christiaan van Dam",
+            "email": "chris@combat.nl"
+        }
+    ],
+    "type": "module",
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@combat-ui/core": "0.6.0",
+        "leaflet": "^1.9.4",
+        "leaflet.markercluster": "^1.5.3"
+    },
+    "devDependencies": {
+        "@symfony/webpack-encore": "^4.2.0",
+        "file-loader": "^7.1.0",
+        "webpack-notifier": "^1.15.0"
+    }
 }
