@@ -13,6 +13,7 @@
 namespace CombatUI\Bundle\CoreBundle\Twig\Extension;
 
 use CombatUI\Bundle\CoreBundle\Twig\ComponentRenderer;
+use CombatUI\Bundle\CoreBundle\Twig\HtmlAttributes;
 use CombatUI\Bundle\CoreBundle\Twig\TokenParser\ComponentTokenParser;
 use CombatUI\Bundle\CoreBundle\Twig\TokenParser\SlotTokenParser;
 use Twig\Extension\AbstractExtension;
@@ -31,7 +32,13 @@ class CombatUIExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-           new TwigFunction('cui_component', [ComponentRenderer::class, 'renderFunction'])
+            new TwigFunction('cui_component', [ComponentRenderer::class, 'renderFunction'], [
+                'needs_environment' => true,
+                'is_safe' => ['html'],
+            ]),
+            new TwigFunction('cui_attrs', [HtmlAttributes::class, 'render'], [
+                'is_safe' => ['html'],
+            ])
         ];
     }
 }
