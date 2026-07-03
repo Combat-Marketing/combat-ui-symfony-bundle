@@ -12,9 +12,26 @@
 
 namespace CombatUI\Bundle\CoreBundle\Twig\Extension;
 
+use CombatUI\Bundle\CoreBundle\Twig\ComponentRenderer;
+use CombatUI\Bundle\CoreBundle\Twig\TokenParser\ComponentTokenParser;
+use CombatUI\Bundle\CoreBundle\Twig\TokenParser\SlotTokenParser;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 class CombatUIExtension extends AbstractExtension
 {
+    public function getTokenParsers(): array
+    {
+        return [
+            new ComponentTokenParser(),
+            new SlotTokenParser(),
+        ];
+    }
 
+    public function getFunctions()
+    {
+        return [
+           new TwigFunction('cui_component', [ComponentRenderer::class, 'renderFunction'])
+        ];
+    }
 }

@@ -40,7 +40,7 @@ final class ComponentTokenParser extends AbstractTokenParser {
         $name = $this->parser->parseExpression();
 
         $props = null;
-        if (!$stream->nextIf(Token::NAME_TYPE, 'with')) {
+        if ($stream->nextIf(Token::NAME_TYPE, 'with')) {
             $props = $this->parser->parseExpression();
         }
 

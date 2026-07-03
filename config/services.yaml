@@ -3,3 +3,9 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+
+    CombatUI\Bundle\CoreBundle\Twig\Extension\CombatUIExtension: ~
+
+    CombatUI\Bundle\CoreBundle\Twig\ComponentRenderer:
+        arguments:
+            $componentDefaults: '%combat_ui_core.component_defaults%'
