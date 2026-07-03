@@ -1,0 +1,5 @@
+# Unit suite: isolated tests without a booted kernel.
+actor: UnitTester
+modules:
+    enabled:
+        - Asserts

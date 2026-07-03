@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Combat UI Symfony Bundle
+  ~
+  ~ This source file is subject to the MIT license bundled with this package in the file LICENSE.
+  ~
+  ~ @copyright Copyright (c) 2026 Combat Jongerenmarketing en -communicatie B.V. (https://www.combat.nl)
+  ~ @license MIT https://opensource.org/licenses/MIT
+  ~ @author Combat UI contributors
+  ~
+  -->
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         cacheDirectory=".phpunit.cache">
+    <testsuites>
+        <testsuite name="unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>tests/Functional</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <server name="KERNEL_CLASS" value="CombatUI\Bundle\CoreBundle\Tests\Kernel\Kernel"/>
+        <server name="APP_ENV" value="test"/>
+        <server name="APP_DEBUG" value="1"/>
+    </php>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+</phpunit>

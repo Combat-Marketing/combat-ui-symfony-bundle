@@ -1,0 +1,5 @@
+# Functional suite: boots the bundle through a real Symfony kernel (see tests/Kernel/Kernel.php).
+actor: FunctionalTester
+modules:
+    enabled:
+        - Asserts

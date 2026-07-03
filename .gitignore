@@ -64,3 +64,9 @@ composer.phar
 /.phpunit.cache
 /node_modules
 /public/build
+/.phpunit.result.cache
+
+# Codeception
+/tests/_output/*
+!/tests/_output/.gitkeep
+/tests/Support/_generated/

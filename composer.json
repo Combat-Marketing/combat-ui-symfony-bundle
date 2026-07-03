@@ -42,10 +42,7 @@
     "autoload-dev": {
         "psr-4": {
             "CombatUI\\Bundle\\CoreBundle\\Tests\\": "tests"
-        },
-        "files": [
-            "kernel/Kernel.php"
-        ]
+        }
     },
     "config": {
         "sort-packages": true,
