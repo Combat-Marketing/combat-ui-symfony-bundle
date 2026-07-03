@@ -63,7 +63,6 @@ composer.phar
 /var
 /.phpunit.cache
 /node_modules
-/public/build
 /.phpunit.result.cache
 
 # Codeception

@@ -61,11 +61,10 @@ final class CombatUICoreExtension extends ConfigurableExtension implements Prepe
             return;
         }
 
+        // The "builds" node is a scalar prototype: build name => output path.
         $container->prependExtensionConfig('webpack_encore', [
             'builds' => [
-                $buildName => [
-                    'output_path' => $buildPath,
-                ],
+                $buildName => $buildPath,
             ],
         ]);
 

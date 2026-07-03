@@ -21,6 +21,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
 
 /**
  * Minimal kernel used by the functional test suite to boot the bundle against a real Symfony container and Twig.
@@ -31,6 +32,7 @@ final class Kernel extends BaseKernel
     {
         yield new FrameworkBundle();
         yield new TwigBundle();
+        yield new WebpackEncoreBundle();
         yield new CombatUICoreBundle();
     }
 
@@ -44,6 +46,18 @@ final class Kernel extends BaseKernel
                 'handle_all_throwables' => true,
                 'php_errors' => [
                     'log' => true,
+                ],
+            ]);
+
+            // The bundle ships a prebuilt Encore build at public/build; in an application this would live at the
+            // assets:install location (public/bundles/combatuicore/build), so point both builds at the shipped one.
+            $container->loadFromExtension('webpack_encore', [
+                'output_path' => '%kernel.project_dir%/public/build',
+            ]);
+
+            $container->loadFromExtension('combat_ui_core', [
+                'encore' => [
+                    'build_path' => '%kernel.project_dir%/public/build',
                 ],
             ]);
         });

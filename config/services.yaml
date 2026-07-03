@@ -9,3 +9,10 @@ services:
     CombatUI\Bundle\CoreBundle\Twig\ComponentRenderer:
         arguments:
             $componentDefaults: '%combat_ui_core.component_defaults%'
+
+    CombatUI\Bundle\CoreBundle\Twig\AssetRenderer:
+        arguments:
+            $tagRenderer: '@webpack_encore.tag_renderer'
+            $buildName: '%combat_ui_core.encore_build%'
+            $entry: '%combat_ui_core.encore_entry%'
+            $themeGuard: '%combat_ui_core.theme_guard%'

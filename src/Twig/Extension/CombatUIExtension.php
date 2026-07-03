@@ -12,6 +12,7 @@
 
 namespace CombatUI\Bundle\CoreBundle\Twig\Extension;
 
+use CombatUI\Bundle\CoreBundle\Twig\AssetRenderer;
 use CombatUI\Bundle\CoreBundle\Twig\ComponentRenderer;
 use CombatUI\Bundle\CoreBundle\Twig\HtmlAttributes;
 use CombatUI\Bundle\CoreBundle\Twig\TokenParser\ComponentTokenParser;
@@ -29,7 +30,7 @@ class CombatUIExtension extends AbstractExtension
         ];
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('cui_component', [ComponentRenderer::class, 'renderFunction'], [
@@ -38,7 +39,13 @@ class CombatUIExtension extends AbstractExtension
             ]),
             new TwigFunction('cui_attrs', [HtmlAttributes::class, 'render'], [
                 'is_safe' => ['html'],
-            ])
+            ]),
+            new TwigFunction('cui_assets', [AssetRenderer::class, 'renderAssets'], [
+                'is_safe' => ['html'],
+            ]),
+            new TwigFunction('cui_theme_script', [AssetRenderer::class, 'renderThemeScript'], [
+                'is_safe' => ['html'],
+            ]),
         ];
     }
 }
