@@ -2,6 +2,7 @@
     "name": "combat-ui/core-bundle",
     "description": "A bundle containing UI elements usable in OpenDxp that use the Combat UI framework",
     "type": "symfony-bundle",
+    "version": "0.6.0",
     "authors": [
         {
             "name": "Jessica Benedictus",
