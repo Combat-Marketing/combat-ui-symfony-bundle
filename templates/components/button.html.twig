@@ -1,0 +1,22 @@
+{#
+    <cui-button> wrapper.
+    Props: variant, href, target, rel, type, disabled, download, full, label, class, attr
+    Slots: default (falls back to the escaped label prop)
+#}
+{%- set data = props.data|default({})|merge({ variant: props.variant|default(null) }) -%}
+<cui-button{{ cui_attrs({
+    href: props.href|default(null),
+    target: props.target|default(null),
+    rel: props.rel|default(null),
+    type: props.href|default(null) ? null : props.type|default(null),
+    disabled: props.disabled|default(null),
+    full: props.full|default(null),
+    class: props.class|default(null),
+    data: data,
+}|merge(props.attr|default({})))|raw }}>
+    {%- if slots.default|default('') is not empty -%}
+        {{- slots.default|raw -}}
+    {%- else -%}
+        {{- props.label|default('') -}}
+    {%- endif -%}
+</cui-button>

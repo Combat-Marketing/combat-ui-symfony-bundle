@@ -1,0 +1,35 @@
+{#
+Page header strip (.cui-page-intro).
+Props: variant (landing|case|vacancy|campaign|full-bleed), tone (inverse),
+align (center), eyebrow, title, title_tag (default h1), lead, meta (list of
+strings for the .cui-meta strip), id, class, attr.
+Slots: default (extra content in the copy column), actions, aside.
+#}
+{% set title_tag = props.title_tag|default('h1') %}
+<section{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-page-intro', props.class|default(null)],
+    'data-variant': props.variant|default(null),
+    'data-tone': props.tone|default(null),
+    'data-align': props.align|default(null),
+}|merge(props.attr|default({}))) }}>
+    <div class="cui-page-intro-layout">
+        <div class="cui-stack">
+            {% if props.eyebrow is defined %}<p class="cui-eyebrow">{{ props.eyebrow }}</p>{% endif %}
+            {% if props.title is defined %}<{{ title_tag }} class="cui-display">{{ props.title }}</{{ title_tag }}>{% endif %}
+        {% if props.meta|default([]) is not empty %}
+            <ul class="cui-meta">
+                {% for item in props.meta %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        {% if props.lead is defined %}<p>{{ props.lead }}</p>{% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if slots.actions is defined %}
+            <div class="cui-cluster">{{ slots.actions|raw }}</div>
+        {% endif %}
+    </div>
+    {% if slots.aside is defined %}
+        <aside class="cui-surface cui-aside">{{ slots.aside|raw }}</aside>
+    {% endif %}
+    </div>
+</section>

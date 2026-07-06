@@ -1,0 +1,19 @@
+{#
+<cui-disclosure> wrapper around a native <details>.
+Props: summary, open, variant (e.g. ghost), class, attr.
+Slots: default (the body), summary.
+#}
+<cui-disclosure{{ cui_attrs({open: props.open|default(false)}|merge(props.attr|default({}))) }}>
+    <details{{ cui_attrs({
+        class: ['cui-disclosure', props.class|default(null)],
+        'data-variant': props.variant|default(null),
+        open: props.open|default(false),
+    }) }}>
+        <summary>
+            {%- if slots.summary is defined %}{{ slots.summary|raw }}{% else %}{{ props.summary|default('') }}{% endif -%}
+        </summary>
+        <div class="cui-disclosure-body">
+            {{ slots.default|default('')|raw }}
+        </div>
+    </details>
+</cui-disclosure>

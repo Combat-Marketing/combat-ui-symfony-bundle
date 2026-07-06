@@ -1,0 +1,13 @@
+{#
+Responsive grid (.cui-grid).
+Props: columns (fixed column count via data-columns), min (min item width
+via --cui-grid-min), gap (compact|spacious via data-gap) + common layout props.
+#}
+{% include '@CombatUICore/layouts/_layout.html.twig' with {
+    base_class: 'cui-grid',
+    style_vars: props.min is defined ? {'--cui-grid-min': props.min} : {},
+    props: props|merge({data: (props.data|default({}))|merge({
+        columns: props.columns|default(false),
+        gap: props.gap|default(false),
+    })}),
+} %}

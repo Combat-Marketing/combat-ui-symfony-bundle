@@ -99,7 +99,7 @@ final class HtmlAttributes
             }
         }
 
-        return $list ? null : implode(' ', $list);
+        return $list ? implode(' ', $list) : null;
      }
 
      private static function styleList(array $styles): ?string
@@ -114,6 +114,6 @@ final class HtmlAttributes
              $list[] = sprintf('%s: %s;', $k, (string)$v);
          }
 
-         return $list ? null : implode(' ', $list);
+         return $list ? implode(' ', $list) : null;
      }
 }

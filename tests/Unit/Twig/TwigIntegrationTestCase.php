@@ -15,11 +15,12 @@ declare(strict_types=1);
 
 namespace CombatUI\Bundle\CoreBundle\Tests\Unit\Twig;
 
-use CombatUI\Bundle\CoreBundle\DependencyInjection\CombatUICoreExtension;
+use CombatUI\Bundle\CoreBundle\Tests\Kernel\Kernel;
 use CombatUI\Bundle\CoreBundle\Twig\ComponentRenderer;
 use CombatUI\Bundle\CoreBundle\Twig\Extension\CombatUIExtension;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
+use Twig\Error\LoaderError;
 use Twig\Loader\ArrayLoader;
 use Twig\Loader\ChainLoader;
 use Twig\Loader\FilesystemLoader;
@@ -31,8 +32,18 @@ use Twig\RuntimeLoader\RuntimeLoaderInterface;
 abstract class TwigIntegrationTestCase extends TestCase
 {
     /**
+     * Explicit kernel class so the test also runs without phpunit.xml.dist (e.g. PhpStorm's --no-configuration runs,
+     * where the KERNEL_CLASS environment variable is never set).
+     */
+    protected static function getKernelClass(): string
+    {
+        return Kernel::class;
+    }
+
+    /**
      * @param array<string, string> $templates
      * @param array<string, array<string, mixed>> $componentDefaults
+     * @throws LoaderError
      */
     protected function createTwig(array $templates = [], array $componentDefaults = []): Environment
     {

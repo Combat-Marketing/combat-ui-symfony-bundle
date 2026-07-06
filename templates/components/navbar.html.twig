@@ -1,0 +1,36 @@
+{#
+<cui-navbar> wrapper producing the structural light DOM the element expects.
+Props: brand, brand_href, sticky, sticky_offset, sticky_z_index, expanded,
+nav_label, class, attr.
+Slots: default (nav links), brand (custom brand markup), actions
+(right-hand area, e.g. a theme toggle or CTA).
+#}
+<cui-navbar{{ cui_attrs({
+    class: ['cui-navbar', props.class|default(null)],
+    sticky: props.sticky|default(false),
+    'sticky-offset': props.sticky_offset|default(null),
+    'sticky-z-index': props.sticky_z_index|default(null),
+    expanded: props.expanded|default(false),
+}|merge(props.attr|default({}))) }}>
+    <div class="cui-navbar-inner">
+        <div class="cui-navbar-bar">
+            {% if slots.brand is defined %}
+                {{ slots.brand|raw }}
+            {% elseif props.brand is defined %}
+                <a class="cui-navbar-brand" href="{{ props.brand_href|default('/') }}">{{ props.brand }}</a>
+            {% endif %}
+        </div>
+        <div class="cui-navbar-collapse">
+            <div class="cui-navbar-collapse-panel">
+                {% if slots.default|default('') is not empty %}
+                    <nav class="cui-navbar-nav" aria-label="{{ props.nav_label|default('Main') }}">
+                        {{ slots.default|raw }}
+                    </nav>
+                {% endif %}
+                {% if slots.actions is defined %}
+                    <div class="cui-navbar-actions">{{ slots.actions|raw }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</cui-navbar>

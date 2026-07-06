@@ -1,0 +1,22 @@
+{#
+<cui-tabs> wrapper. Panels are the tag body (one element per tab, in
+order); the tab buttons come from the tabs prop or the tablist slot.
+Props: tabs (list of labels, or of {label, selected} hashes), class, attr.
+Slots: default (the panels), tablist (fully custom tab buttons).
+#}
+<cui-tabs{{ cui_attrs({class: props.class|default(null)}|merge(props.attr|default({}))) }}>
+    {% if slots.tablist is defined %}
+        <div class="cui-tablist">{{ slots.tablist|raw }}</div>
+    {% elseif props.tabs is defined %}
+        {% set has_selected = props.tabs|filter(tab => tab.selected|default(false))|length > 0 %}
+        <div class="cui-tablist">
+            {% for tab in props.tabs %}
+                {% set selected = tab.selected|default(not has_selected and loop.first) %}
+                <button type="button" class="cui-tab"{% if selected %} data-selected="true"{% endif %}>
+                    {{- tab.label is defined ? tab.label : tab -}}
+                </button>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {{ slots.default|default('')|raw }}
+</cui-tabs>

@@ -1,0 +1,17 @@
+{#
+Shared renderer for the CSS layout primitives. Included by the per-layout
+templates with: base_class (string), style_vars (hash of CSS custom
+properties or null), plus the regular props/slots context.
+Common props on every layout: tag (default div), id, class, attr,
+vars (extra CSS custom properties merged into style), data (hash rendered
+as data-* attributes).
+#}
+{% set tag = props.tag|default('div') %}
+<{{ tag }}{{ cui_attrs({
+    id: props.id|default(null),
+    class: [base_class, props.class|default(null)],
+    style: (style_vars|default({}))|merge(props.vars|default({})),
+    data: props.data|default({}),
+}|merge(props.attr|default({}))) }}>
+{{- slots.default|default('')|raw -}}
+</{{ tag }}>

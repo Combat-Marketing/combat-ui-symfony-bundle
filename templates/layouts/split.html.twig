@@ -1,0 +1,8 @@
+{# Two-column split (.cui-split). Props: start, end (fr sizes) + common layout props. #}
+{% include '@CombatUICore/layouts/_layout.html.twig' with {
+    base_class: 'cui-split',
+    style_vars: {
+        '--cui-split-start': props.start|default(false),
+        '--cui-split-end': props.end|default(false),
+    },
+} %}

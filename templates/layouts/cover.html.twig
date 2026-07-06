@@ -1,0 +1,9 @@
+{#
+Cover layout (.cui-cover): header/footer pinned, main content centered.
+Mark the main element with class="cui-cover-main".
+Props: size (min-block-size via --cui-cover-size) + common layout props.
+#}
+{% include '@CombatUICore/layouts/_layout.html.twig' with {
+    base_class: 'cui-cover',
+    style_vars: props.size is defined ? {'--cui-cover-size': props.size} : {},
+} %}

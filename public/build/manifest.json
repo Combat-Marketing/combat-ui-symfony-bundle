@@ -1,4 +1,7 @@
 {
-  "build/combat-ui.js": "/bundles/combatuicore/build/combat-ui.65bab7c1.js",
-  "build/runtime.js": "/bundles/combatuicore/build/runtime.826cc56c.js"
+  "build/combat-ui.css": "/bundles/combatuicore/build/combat-ui.3e8f24b4.css",
+  "build/combat-ui.js": "/bundles/combatuicore/build/combat-ui.05d78e7c.js",
+  "build/runtime.js": "/bundles/combatuicore/build/runtime.46da20b3.js",
+  "build/481.158a292a.js": "/bundles/combatuicore/build/481.158a292a.js",
+  "build/389.82add1c1.js": "/bundles/combatuicore/build/389.82add1c1.js"
 }

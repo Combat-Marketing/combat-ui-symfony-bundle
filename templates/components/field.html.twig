@@ -1,0 +1,29 @@
+{#
+<cui-field> wrapper for a single form control with label, help and
+validation messages.
+Props: label, for, help, required, error, errors (hash keyed by
+ValidityState key, e.g. {valueMissing: '...', typeMismatch: '...'}), class, attr.
+Slots: default (the control), label, help.
+#}
+<cui-field{{ cui_attrs({
+    required: props.required|default(false),
+    class: props.class|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if slots.label is defined %}
+        <label slot="label"{{ cui_attrs({for: props.for|default(null)}) }}>{{ slots.label|raw }}</label>
+    {% elseif props.label is defined %}
+        <label slot="label"{{ cui_attrs({for: props.for|default(null)}) }}>{{ props.label }}</label>
+    {% endif %}
+    {{ slots.default|default('')|raw }}
+    {% if slots.help is defined %}
+        <span slot="help">{{ slots.help|raw }}</span>
+    {% elseif props.help is defined %}
+        <span slot="help">{{ props.help }}</span>
+    {% endif %}
+    {% for validity_key, message in props.errors|default({}) %}
+        <span slot="error-{{ validity_key }}">{{ message }}</span>
+    {% endfor %}
+    {% if props.error is defined %}
+        <span slot="error">{{ props.error }}</span>
+    {% endif %}
+</cui-field>

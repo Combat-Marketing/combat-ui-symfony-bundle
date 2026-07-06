@@ -36,7 +36,7 @@ final readonly class AssetRenderer implements RuntimeExtensionInterface
 
         $tags = [];
 
-        if (!$this->themeGuard) {
+        if ($this->themeGuard) {
             $tags[] = $this->renderThemeScript();
         }
 

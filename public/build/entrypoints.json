@@ -2,8 +2,11 @@
   "entrypoints": {
     "combat-ui": {
       "js": [
-        "/bundles/combatuicore/build/runtime.826cc56c.js",
-        "/bundles/combatuicore/build/combat-ui.65bab7c1.js"
+        "/bundles/combatuicore/build/runtime.46da20b3.js",
+        "/bundles/combatuicore/build/combat-ui.05d78e7c.js"
+      ],
+      "css": [
+        "/bundles/combatuicore/build/combat-ui.3e8f24b4.css"
       ]
     }
   }

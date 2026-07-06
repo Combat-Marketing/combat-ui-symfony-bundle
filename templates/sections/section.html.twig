@@ -1,0 +1,23 @@
+{#
+    Generic page band (.cui-section).
+    Props: tag (default section), id, spacing (compact|spacious|hero),
+    tone (muted|inverse|accent), container (true/'default'|narrow|wide),
+    class, attr.
+    Slots: default.
+#}
+{% set tag = props.tag|default('section') %}
+{% set tone = props.tone|default(null) %}
+<{{ tag }}{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-section', tone ? 'cui-section-' ~ tone : null, props.class|default(null)],
+    'data-spacing': props.spacing|default(null),
+}|merge(props.attr|default({})))  }}>
+    {%- set container = props.container|default(false) -%}
+    {%- if container -%}
+        <div class="{{ container is same as(true) or container == 'default' ? 'cui-container' : 'cui-container-' ~ container }}">
+            {{- slots.default|default('')|raw -}}
+        </div>
+    {%- else -%}
+        {{- slots.default|default('')|raw -}}
+    {%- endif -%}
+</{{ tag }}>

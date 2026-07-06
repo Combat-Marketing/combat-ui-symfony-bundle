@@ -1,0 +1,8 @@
+{# Row that flips to a column below a threshold (.cui-switcher). Props: gap, threshold + common layout props. #}
+{% include '@CombatUICore/layouts/_layout.html.twig' with {
+    base_class: 'cui-switcher',
+    style_vars: {
+        '--cui-switcher-gap': props.gap|default(false),
+        '--cui-switcher-threshold': props.threshold|default(false),
+    },
+} %}

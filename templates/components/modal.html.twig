@@ -1,0 +1,31 @@
+{#
+<cui-modal> wrapper around a native <dialog>. Open it from anywhere with a
+button carrying data-cui-modal-target="{id}".
+Props: id, open, title, dismissible (default true), close_label, class, attr.
+Slots: default (the body), header (replaces title + close button), actions.
+#}
+<cui-modal{{ cui_attrs({
+    id: props.id|default(null),
+    open: props.open|default(false),
+}|merge(props.attr|default({}))) }}>
+    <dialog{{ cui_attrs({class: ['cui-dialog', 'cui-surface', props.class|default(null)]}) }}>
+        {% if slots.header is defined or props.title is defined %}
+            <header class="cui-dialog-header">
+                {% if slots.header is defined %}
+                    {{ slots.header|raw }}
+                {% else %}
+                    <h3 class="cui-dialog-title">{{ props.title }}</h3>
+                    {% if props.dismissible|default(true) %}
+                        <button type="button" class="cui-dialog-close" data-cui-modal-close aria-label="{{ props.close_label|default('Close') }}">&times;</button>
+                    {% endif %}
+                {% endif %}
+            </header>
+        {% endif %}
+        <div class="cui-dialog-body">
+            {{ slots.default|default('')|raw }}
+        </div>
+        {% if slots.actions is defined %}
+            <footer class="cui-dialog-actions">{{ slots.actions|raw }}</footer>
+        {% endif %}
+    </dialog>
+</cui-modal>

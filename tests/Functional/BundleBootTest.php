@@ -18,6 +18,8 @@ namespace CombatUI\Bundle\CoreBundle\Tests\Functional;
 use CombatUI\Bundle\CoreBundle\Tests\Kernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\SyntaxError;
 
 final class BundleBootTest extends KernelTestCase
 {
@@ -37,13 +39,22 @@ final class BundleBootTest extends KernelTestCase
         return self::getContainer()->get('twig');
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
     public function testCuiTagRendersThroughRealTwig(): void
     {
         $twig = $this->twig();
 
+        try {
+            $html = $twig->createTemplate("{% cui 'button' with { variant: 'primary'} %}Save{% endcui %}")->render();
+        } catch (\Throwable $e) {
+            self::fail("Rendering the `{% cui %}` tag failed: " . $e->getMessage());
+        }
         $html = $twig->createTemplate("{% cui 'button' with { variant: 'primary'} %}Save{% endcui %}")->render();
 
-        self::assertStringContainsString('<cui-button variant="primary">', $html);
+        self::assertStringContainsString('<cui-button data-variant="primary">', $html);
     }
 
     public function testShippedTemplatesResolveThroughBundleNamespace(): void
@@ -55,6 +66,10 @@ final class BundleBootTest extends KernelTestCase
         self::assertStringContainsString('class="cui-section cui-section-muted', $html);
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
     public function testCuiAssetsRendersEncoreTagsAndThemeGuard(): void
     {
         $twig = $this->twig();
@@ -64,7 +79,7 @@ final class BundleBootTest extends KernelTestCase
         self::assertStringContainsString('localStorage.getItem("cui-theme")', $html);
         self::assertStringContainsString('/bundles/combatuicore/build/combat-ui', $html);
         self::assertStringContainsString('<link rel="stylesheet"', $html);
-        self::assertStringContainsString('<sript src="', $html);
+        self::assertStringContainsString('<script src=', $html);
     }
 
     public function testCuiThemeScriptFunction(): void

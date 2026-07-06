@@ -1,0 +1,21 @@
+{#
+<cui-form> wrapper around a native <form>. Combat UI takes over validation,
+so the inner form is rendered with novalidate by default.
+Props: action, method, name, id, enctype, novalidate (default true), class
+(inner form classes, default cui-stack), attr (extra attributes on the
+inner form), element_attr (extra attributes on <cui-form>).
+Slots: default (fields and actions).
+#}
+<cui-form{{ cui_attrs(props.element_attr|default({})) }}>
+    <form{{ cui_attrs({
+        action: props.action|default(null),
+        method: props.method|default(null),
+        name: props.name|default(null),
+        id: props.id|default(null),
+        enctype: props.enctype|default(null),
+        novalidate: props.novalidate|default(true),
+        class: props.class|default('cui-stack'),
+    }|merge(props.attr|default({}))) }}>
+        {{ slots.default|default('')|raw }}
+    </form>
+</cui-form>

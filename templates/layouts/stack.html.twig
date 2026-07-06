@@ -1,0 +1,5 @@
+{# Vertical rhythm column (.cui-stack). Props: gap (any CSS length) + common layout props. #}
+{% include '@CombatUICore/layouts/_layout.html.twig' with {
+    base_class: 'cui-stack',
+    style_vars: props.gap is defined ? {'--cui-stack-gap': props.gap} : {},
+} %}
