@@ -31,7 +31,7 @@ final class TemplateTest extends TwigIntegrationTestCase
         $twig = $this->createTwig([
             'index' => <<<'TWIG'
                 {% cui 'cta' with {variant: 'split', tone: 'inverse', eyebrow: 'Next step', title: 'Start now', lead: 'Get going.'} %}
-                    {% cui_slot 'actions' %}<cui-button variant="primary">Go</cui-button>{% endcui_slot %}
+                    {% cui_slot 'actions' %}<cui-button data-variant="primary">Go</cui-button>{% endcui_slot %}
                 {% endcui %}
                 TWIG,
         ]);
