@@ -9,7 +9,7 @@ on:
 
 jobs:
   codeception:
-    name: Codeception (PHP ${{ matrix.php }})
+    name: Codeception (PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -17,6 +17,9 @@ jobs:
         php:
           - '8.4'
           - '8.5'
+        symfony:
+          - '7.4.*'
+          - '8.*'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,13 +29,17 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
-          tools: composer:v2
+          tools: composer:v2, flex
 
       - name: Validate composer.json
         run: composer validate --strict
 
-      - name: Install dependencies
+      - name: Install dependencies (Symfony ${{ matrix.symfony }})
         uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: highest
+        env:
+          SYMFONY_REQUIRE: ${{ matrix.symfony }}
 
       - name: Generate Codeception actor classes
         run: vendor/bin/codecept build

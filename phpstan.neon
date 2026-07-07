@@ -8,7 +8,7 @@ parameters:
         - identifier: missingType.iterableValue
 
     symfony:
-        containerXmlPath: var/cache/test/CombatUI_Bundle_CoreBundle_Tests_Kernel_KernelTestDebugContainer.xml
+        containerXmlPath: tests/_output/kernel/cache/test/CombatUI_Bundle_CoreBundle_Tests_Kernel_KernelTestDebugContainer.xml
 
 includes:
     - vendor/phpstan/phpstan-symfony/extension.neon

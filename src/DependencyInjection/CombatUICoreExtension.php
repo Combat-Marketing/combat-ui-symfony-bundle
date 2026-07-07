@@ -17,11 +17,11 @@ namespace CombatUI\Bundle\CoreBundle\DependencyInjection;
 use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-final class CombatUICoreExtension extends ConfigurableExtension implements PrependExtensionInterface
+final class CombatUICoreExtension extends Extension implements PrependExtensionInterface
 {
     private const DEFAULT_BUILD_PATH = '%kernel.project_dir%/public/bundles/combatuicore/build';
 
@@ -29,8 +29,10 @@ final class CombatUICoreExtension extends ConfigurableExtension implements Prepe
      * @inheritDoc
      * @throws Exception
      */
-    protected function loadInternal(array $mergedConfig, ContainerBuilder $container): void
+    public function load(array $configs, ContainerBuilder $container): void
     {
+        $mergedConfig = $this->processConfiguration(new Configuration(), $configs);
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('services.yaml');
 
@@ -40,7 +42,7 @@ final class CombatUICoreExtension extends ConfigurableExtension implements Prepe
         $container->setParameter('combat_ui_core.component_defaults', $mergedConfig['component_defaults']);
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         if (!$container->hasExtension('webpack_encore')) {
             return;
