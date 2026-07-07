@@ -1,6 +1,6 @@
 {
     "name": "combat-ui/core-bundle",
-    "description": "A bundle containing UI elements usable in OpenDxp that use the Combat UI framework",
+    "description": "A bundle containing UI elements usable in Symfony that use the Combat UI framework",
     "type": "symfony-bundle",
     "authors": [
         {
