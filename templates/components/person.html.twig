@@ -1,0 +1,36 @@
+{#
+Person / team card (.cui-person).
+Props: name, name_tag (default h3), role, meta (department/pronouns eyebrow),
+bio, photo, photo_alt, href (renders the whole card as a link),
+orient (row), align (center), photo_shape (square|rounded — default circular),
+variant (flat|borderless|leadership), id, class, attr.
+Slots: default (extra body content), photo (custom photo markup),
+links (raw <li> items, rendered as a .cui-cluster list).
+#}
+{% set tag = props.href is defined ? 'a' : 'article' %}
+{% set name_tag = props.name_tag|default('h3') %}
+<{{ tag }}{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-person', props.class|default(null)],
+    href: props.href|default(null),
+    'data-orient': props.orient|default(null),
+    'data-align': props.align|default(null),
+    'data-photo': props.photo_shape|default(null),
+    'data-variant': props.variant|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if slots.photo is defined %}
+        {{ slots.photo|raw }}
+    {% elseif props.photo is defined %}
+        <img class="cui-person-photo" src="{{ props.photo }}" alt="{{ props.photo_alt|default('') }}">
+    {% endif %}
+    <div class="cui-stack">
+        {% if props.meta is defined %}<p class="cui-person-meta">{{ props.meta }}</p>{% endif %}
+        {% if props.name is defined %}<{{ name_tag }} class="cui-person-name">{{ props.name }}</{{ name_tag }}>{% endif %}
+        {% if props.role is defined %}<p class="cui-person-role">{{ props.role }}</p>{% endif %}
+        {% if props.bio is defined %}<p class="cui-person-bio">{{ props.bio }}</p>{% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if slots.links is defined %}
+            <ul class="cui-cluster">{{ slots.links|raw }}</ul>
+        {% endif %}
+    </div>
+</{{ tag }}>

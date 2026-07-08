@@ -1,0 +1,55 @@
+{#
+Vacancy card (.cui-vacancy-card) — job listing card with chip meta and status pill.
+Props: title, title_tag (default h3), href, eyebrow (team label), eyebrow_href,
+lead (tagline, .cui-lead), excerpt, image, image_alt (media, row orient),
+meta (list of strings), meta_variant (default chips — set null for the
+inline · row), status (new|closing|closed), status_label (visible pill text),
+variant (featured|compact|flat|borderless), orient (row),
+data (filter hooks, e.g. {team: 'boa', location: 'hq'}), id, class, attr.
+Slots: default (extra body content), media, meta (raw <li> items), actions.
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-vacancy-card', props.class|default(null)],
+    'data-orient': props.orient|default(null),
+    'data-variant': props.variant|default(null),
+    'data-status': props.status|default(null),
+    data: props.data|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if slots.media is defined %}
+        {{ slots.media|raw }}
+    {% elseif props.image is defined %}
+        {% if props.href is defined %}
+            <a href="{{ props.href }}"{% if props.title is defined %} aria-label="{{ props.title }}"{% endif %}><img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}"></a>
+        {% else %}
+            <img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}">
+        {% endif %}
+    {% endif %}
+    <div class="cui-stack">
+        {% if props.eyebrow is defined %}
+            <p class="cui-eyebrow">
+                {%- if props.eyebrow_href is defined %}<a href="{{ props.eyebrow_href }}">{{ props.eyebrow }}</a>{% else %}{{ props.eyebrow }}{% endif -%}
+            </p>
+        {% endif %}
+        {% if props.title is defined %}
+            <{{ title_tag }} class="cui-display">
+                {%- if props.href is defined %}<a href="{{ props.href }}">{{ props.title }}</a>{% else %}{{ props.title }}{% endif -%}
+            </{{ title_tag }}>
+        {% endif %}
+        {% if props.lead is defined %}<p class="cui-lead">{{ props.lead }}</p>{% endif %}
+        {% if slots.meta is defined %}
+            <ul{{ cui_attrs({class: 'cui-meta', 'data-variant': props.meta_variant|default('chips')}) }}>{{ slots.meta|raw }}</ul>
+        {% elseif props.meta|default([]) is not empty %}
+            <ul{{ cui_attrs({class: 'cui-meta', 'data-variant': props.meta_variant|default('chips')}) }}>
+                {% for item in props.meta %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        {% if props.excerpt is defined %}<p>{{ props.excerpt }}</p>{% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if slots.actions is defined %}
+            <div class="cui-cluster">{{ slots.actions|raw }}</div>
+        {% endif %}
+    </div>
+    {% if props.status_label is defined %}<span>{{ props.status_label }}</span>{% endif %}
+</article>

@@ -1,0 +1,58 @@
+{#
+Pagination nav (.cui-pagination) — server-rendered, crawlable.
+Props: label (aria-label, default 'Pagination'), variant (compact),
+align (start|end), prev ({href, label} — omit href for a disabled control),
+next ({href, label}), pages (list of numbers/strings, {href, label, current}
+hashes, or {ellipsis: true} markers), status (compact-variant status text,
+e.g. 'Page 2 of 8'), prev_label / next_label defaults ('Previous'/'Next'),
+id, class, attr.
+Slots: default (extra raw <li> items before the next control).
+#}
+<nav{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-pagination', props.class|default(null)],
+    'data-variant': props.variant|default(null),
+    'data-align': props.align|default(null),
+    'aria-label': props.label|default('Pagination'),
+}|merge(props.attr|default({}))) }}>
+    <ul>
+        {% if props.prev is defined %}
+            {% set prev_label = props.prev.label|default(props.prev_label|default('Previous')) %}
+            <li>
+                {% if props.prev.href is defined %}
+                    <a class="cui-pagination-link" data-control="prev" href="{{ props.prev.href }}"><span aria-hidden="true">&#8592;</span> {{ prev_label }}</a>
+                {% else %}
+                    <span class="cui-pagination-link" data-control="prev" aria-disabled="true"><span aria-hidden="true">&#8592;</span> {{ prev_label }}</span>
+                {% endif %}
+            </li>
+        {% endif %}
+        {% for page in props.pages|default([]) %}
+            {% if page.ellipsis is defined and page.ellipsis %}
+                <li aria-hidden="true"><span class="cui-pagination-ellipsis">&#8230;</span></li>
+            {% else %}
+                {% set page_label = page.label is defined ? page.label : page %}
+                <li>
+                    {% if page.href is defined %}
+                        <a class="cui-pagination-link" href="{{ page.href }}"{% if page.current|default(false) %} aria-current="page"{% endif %}>{{ page_label }}</a>
+                    {% else %}
+                        <span class="cui-pagination-link"{% if page.current|default(false) %} aria-current="page"{% endif %}>{{ page_label }}</span>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if props.status is defined %}
+            <li><span class="cui-pagination-status">{{ props.status }}</span></li>
+        {% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if props.next is defined %}
+            {% set next_label = props.next.label|default(props.next_label|default('Next')) %}
+            <li>
+                {% if props.next.href is defined %}
+                    <a class="cui-pagination-link" data-control="next" href="{{ props.next.href }}">{{ next_label }} <span aria-hidden="true">&#8594;</span></a>
+                {% else %}
+                    <span class="cui-pagination-link" data-control="next" aria-disabled="true">{{ next_label }} <span aria-hidden="true">&#8594;</span></span>
+                {% endif %}
+            </li>
+        {% endif %}
+    </ul>
+</nav>

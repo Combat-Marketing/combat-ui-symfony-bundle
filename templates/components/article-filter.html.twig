@@ -1,0 +1,34 @@
+{#
+<cui-article-filter> chip row — client-side filter for .cui-article-card
+containers; the form still posts without JavaScript.
+Props: target (CSS selector of the card container), categories (list of
+strings or {value, label} hashes), label (default 'Filter'), name (input
+name, default 'category'), multi (bool — checkboxes for multi-select),
+all_label (label of the reset chip, default 'All'; single-select only),
+form_label (form aria-label), id, class, attr.
+Slots: default (extra form content / custom chips).
+#}
+{% set multi = props.multi|default(false) %}
+{% set name = props.name|default('category') %}
+<cui-article-filter{{ cui_attrs({
+    id: props.id|default(null),
+    target: props.target|default(null),
+    class: props.class|default(null),
+}|merge(props.attr|default({}))) }}>
+    <form class="cui-article-filter"{% if props.form_label is defined %} aria-label="{{ props.form_label }}"{% endif %}>
+        <p class="cui-article-filter-label">{{ props.label|default('Filter') }}</p>
+        {% if not multi %}
+            <label class="cui-article-filter-chip">
+                <input type="radio" name="{{ name }}" value="" checked>
+                <span>{{ props.all_label|default('All') }}</span>
+            </label>
+        {% endif %}
+        {% for category in props.categories|default([]) %}
+            <label class="cui-article-filter-chip">
+                <input type="{{ multi ? 'checkbox' : 'radio' }}" name="{{ name }}" value="{{ category.value is defined ? category.value : category }}">
+                <span>{{ category.label is defined ? category.label : category }}</span>
+            </label>
+        {% endfor %}
+        {{ slots.default|default('')|raw }}
+    </form>
+</cui-article-filter>

@@ -1,0 +1,37 @@
+{#
+Vacancy detail layout (.cui-vacancy-detail) — header band, narrative body,
+sticky aside; flips to a single column below the container-query threshold.
+Props: eyebrow, title, title_tag (default h1), lead, meta (list of strings,
+rendered as chips), aside_position ('start' moves the aside before the body),
+id, class, attr.
+Slots: default (narrative body — plain <section> blocks with headings),
+header (replaces the props-driven header), aside (quick facts, apply
+button, contact block).
+#}
+{% set title_tag = props.title_tag|default('h1') %}
+<div{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-vacancy-detail', props.class|default(null)],
+    'data-aside': props.aside_position|default(null),
+}|merge(props.attr|default({}))) }}>
+    <header class="cui-stack">
+        {% if slots.header is defined %}
+            {{ slots.header|raw }}
+        {% else %}
+            {% if props.eyebrow is defined %}<p class="cui-eyebrow">{{ props.eyebrow }}</p>{% endif %}
+            {% if props.title is defined %}<{{ title_tag }} class="cui-display">{{ props.title }}</{{ title_tag }}>{% endif %}
+            {% if props.lead is defined %}<p class="cui-lead">{{ props.lead }}</p>{% endif %}
+            {% if props.meta|default([]) is not empty %}
+                <ul class="cui-meta" data-variant="chips">
+                    {% for item in props.meta %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </header>
+    <div class="cui-flow">
+        {{ slots.default|default('')|raw }}
+    </div>
+    {% if slots.aside is defined %}
+        <aside class="cui-vacancy-aside cui-surface cui-stack">{{ slots.aside|raw }}</aside>
+    {% endif %}
+</div>

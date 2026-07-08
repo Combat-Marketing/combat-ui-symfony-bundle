@@ -1,0 +1,24 @@
+{#
+Figure (.cui-figure) — captioned media with consistent caption styling.
+Props: src, alt, caption, ratio (square|portrait|wide|auto), align (center),
+bleed (bool — data-bleed="full"), id, class, attr.
+Slots: default (custom media markup; replaces src), caption.
+#}
+<figure{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-figure', props.class|default(null)],
+    'data-ratio': props.ratio|default(null),
+    'data-align': props.align|default(null),
+    'data-bleed': props.bleed|default(false) ? 'full' : null,
+}|merge(props.attr|default({}))) }}>
+    {% if slots.default|default('')|trim %}
+        {{ slots.default|raw }}
+    {% elseif props.src is defined %}
+        <img src="{{ props.src }}" alt="{{ props.alt|default('') }}">
+    {% endif %}
+    {% if slots.caption is defined %}
+        <figcaption>{{ slots.caption|raw }}</figcaption>
+    {% elseif props.caption is defined %}
+        <figcaption>{{ props.caption }}</figcaption>
+    {% endif %}
+</figure>

@@ -1,0 +1,27 @@
+{#
+Itinerary row (.cui-itinerary-item) — day-in-the-life narrative entry.
+Lay several out in a .cui-stack (or <ol class="cui-stack"> with tag: 'li');
+the stack takes data-variant="compact" or "bare".
+Props: tag (default li), marker (time text or free-form label like 'Day 1'),
+datetime (renders the marker as <time datetime>), title, title_tag (default h3),
+id, class, attr.
+Slots: default (copy).
+#}
+{% set tag = props.tag|default('li') %}
+{% set title_tag = props.title_tag|default('h3') %}
+<{{ tag }}{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-itinerary-item', props.class|default(null)],
+}|merge(props.attr|default({}))) }}>
+    {% if props.marker is defined %}
+        {% if props.datetime is defined %}
+            <time class="cui-itinerary-marker" datetime="{{ props.datetime }}">{{ props.marker }}</time>
+        {% else %}
+            <span class="cui-itinerary-marker">{{ props.marker }}</span>
+        {% endif %}
+    {% endif %}
+    <div class="cui-stack">
+        {% if props.title is defined %}<{{ title_tag }}>{{ props.title }}</{{ title_tag }}>{% endif %}
+        {{ slots.default|default('')|raw }}
+    </div>
+</{{ tag }}>

@@ -1,0 +1,45 @@
+{#
+Location / office card (.cui-location-card) — media panel beside a body with
+name, address, contact methods, and actions.
+Props: title, title_tag (default h3), image, image_alt, address (string or
+list of lines), methods (list of {term, label, href}), methods_layout
+(default inline), orient (stacked), variant (flat|borderless), id, class, attr.
+Slots: default (extra body content), media (custom media — img, cui-map,
+iframe), methods, actions.
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-location-card', props.class|default(null)],
+    'data-orient': props.orient|default(null),
+    'data-variant': props.variant|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if slots.media is defined %}
+        <div class="cui-location-card-media">{{ slots.media|raw }}</div>
+    {% elseif props.image is defined %}
+        <div class="cui-location-card-media">
+            <img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}">
+        </div>
+    {% endif %}
+    <div class="cui-stack">
+        {% if props.title is defined %}<{{ title_tag }} class="cui-display">{{ props.title }}</{{ title_tag }}>{% endif %}
+        {% if props.address is defined %}
+            <address>
+                {%- if props.address is iterable -%}
+                    {% for line in props.address %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+                {%- else -%}
+                    {{ props.address }}
+                {%- endif -%}
+            </address>
+        {% endif %}
+        {% if slots.methods is defined %}
+            {{ slots.methods|raw }}
+        {% elseif props.methods|default([]) is not empty %}
+            {{ cui_component('contact-methods', {items: props.methods, layout: props.methods_layout|default('inline')}) }}
+        {% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if slots.actions is defined %}
+            <div class="cui-cluster">{{ slots.actions|raw }}</div>
+        {% endif %}
+    </div>
+</article>

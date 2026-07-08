@@ -1,0 +1,20 @@
+{#
+Organisation chart (.cui-org-chart) — CSS-connector tree of person cards.
+Props: nodes (recursive list of {name, role, meta, photo, photo_alt,
+children: [...]}) — every key except children is forwarded to the person
+component; label (aria-label, default 'Organisation chart'),
+layout (vertical|horizontal), line (dashed), id, class, attr.
+Slots: default (custom .cui-org-node items, used when nodes is empty).
+#}
+<ol{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-org-chart', props.class|default(null)],
+    'data-layout': props.layout|default(null),
+    'data-line': props.line|default(null),
+    'aria-label': props.label|default('Organisation chart'),
+}|merge(props.attr|default({}))) }}>
+    {% for node in props.nodes|default([]) %}
+        {% include '@CombatUICore/components/_org-node.html.twig' with {node: node} only %}
+    {% endfor %}
+    {{ slots.default|default('')|raw }}
+</ol>

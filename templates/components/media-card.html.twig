@@ -1,0 +1,46 @@
+{#
+Media card (.cui-media-card) — leading media above (or beside) a stacked body.
+Props: title, title_tag (default h3), eyebrow, metadata (.cui-metadata kicker —
+alternative to eyebrow), image, image_alt, href (wraps the media region in a
+link; the title also links), orient (row), media_position ('end' renders the
+media after the body), variant (flat|borderless), elevation (surface preset),
+radius (surface preset), ratio (square|portrait|wide|auto), id, class, attr.
+Slots: default (body copy), media (custom media markup), actions.
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+{% set media_region %}
+    {%- if slots.media is defined -%}
+        <div class="cui-media-card-media">{{ slots.media|raw }}</div>
+    {%- elseif props.image is defined -%}
+        {%- if props.href is defined -%}
+            <a class="cui-media-card-media" href="{{ props.href }}"{% if props.title is defined %} aria-label="{{ props.title }}"{% endif %}><img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}"></a>
+        {%- else -%}
+            <img class="cui-media-card-media" src="{{ props.image }}" alt="{{ props.image_alt|default('') }}">
+        {%- endif -%}
+    {%- endif -%}
+{% endset %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-media-card', props.class|default(null)],
+    'data-orient': props.orient|default(null),
+    'data-variant': props.variant|default(null),
+    'data-elevation': props.elevation|default(null),
+    'data-radius': props.radius|default(null),
+    'data-ratio': props.ratio|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if props.media_position|default(null) != 'end' %}{{ media_region|raw }}{% endif %}
+    <div class="cui-stack">
+        {% if props.metadata is defined %}<p class="cui-metadata">{{ props.metadata }}</p>{% endif %}
+        {% if props.eyebrow is defined %}<p class="cui-eyebrow">{{ props.eyebrow }}</p>{% endif %}
+        {% if props.title is defined %}
+            <{{ title_tag }}>
+                {%- if props.href is defined %}<a href="{{ props.href }}">{{ props.title }}</a>{% else %}{{ props.title }}{% endif -%}
+            </{{ title_tag }}>
+        {% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if slots.actions is defined %}
+            <div class="cui-cluster">{{ slots.actions|raw }}</div>
+        {% endif %}
+    </div>
+    {% if props.media_position|default(null) == 'end' %}{{ media_region|raw }}{% endif %}
+</article>

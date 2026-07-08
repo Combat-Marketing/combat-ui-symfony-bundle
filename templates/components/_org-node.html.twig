@@ -1,0 +1,14 @@
+{#
+Internal: one .cui-org-node of the org-chart component. Context: node
+(hash of person props + optional children list). Recurses for children.
+#}
+<li class="cui-org-node">
+    {{ cui_component('person', {class: 'cui-org-card', align: 'center'}|merge(node|filter((value, key) => key != 'children'))) }}
+    {% if node.children|default([]) is not empty %}
+        <ol class="cui-org-children">
+            {% for child in node.children %}
+                {% include '@CombatUICore/components/_org-node.html.twig' with {node: child} only %}
+            {% endfor %}
+        </ol>
+    {% endif %}
+</li>

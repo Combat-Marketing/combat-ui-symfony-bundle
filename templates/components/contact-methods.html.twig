@@ -1,0 +1,18 @@
+{#
+Contact methods list (.cui-contact-methods) — a <dl> of labelled channels.
+Props: items (list of {term, label, href}), layout (inline), id, class, attr.
+Slots: default (extra raw <dt>/<dd> pairs).
+#}
+<dl{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-contact-methods', props.class|default(null)],
+    'data-layout': props.layout|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% for item in props.items|default([]) %}
+        <dt>{{ item.term|default('') }}</dt>
+        <dd>
+            {%- if item.href is defined %}<a href="{{ item.href }}">{{ item.label|default(item.href) }}</a>{% else %}{{ item.label|default('') }}{% endif -%}
+        </dd>
+    {% endfor %}
+    {{ slots.default|default('')|raw }}
+</dl>

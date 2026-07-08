@@ -1,0 +1,11 @@
+{#
+Logo strip item (.cui-logo-item) — lay out with .cui-grid (--cui-grid-min: 9rem).
+Props: label (rendered as <strong>), id, class, attr.
+Slots: default (logo markup — img/svg; replaces label).
+#}
+<div{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-logo-item', props.class|default(null)],
+}|merge(props.attr|default({}))) }}>
+    {%- if slots.default|default('')|trim %}{{ slots.default|raw }}{% elseif props.label is defined %}<strong>{{ props.label }}</strong>{% endif -%}
+</div>

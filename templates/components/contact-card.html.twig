@@ -1,0 +1,27 @@
+{#
+Contact card (.cui-contact-card) — channel card for contact directories.
+Props: eyebrow, title, title_tag (default h3), methods (list of
+{term, label, href}), methods_layout (inline), variant (flat|borderless|inverse),
+align (center), id, class, attr.
+Slots: default (copy between title and methods), methods (custom
+.cui-contact-methods markup), actions.
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-stack', 'cui-contact-card', props.class|default(null)],
+    'data-variant': props.variant|default(null),
+    'data-align': props.align|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if props.eyebrow is defined %}<p class="cui-eyebrow">{{ props.eyebrow }}</p>{% endif %}
+    {% if props.title is defined %}<{{ title_tag }} class="cui-display">{{ props.title }}</{{ title_tag }}>{% endif %}
+    {{ slots.default|default('')|raw }}
+    {% if slots.methods is defined %}
+        {{ slots.methods|raw }}
+    {% elseif props.methods|default([]) is not empty %}
+        {{ cui_component('contact-methods', {items: props.methods, layout: props.methods_layout|default(null)}) }}
+    {% endif %}
+    {% if slots.actions is defined %}
+        <div class="cui-cluster">{{ slots.actions|raw }}</div>
+    {% endif %}
+</article>

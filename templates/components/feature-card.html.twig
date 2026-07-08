@@ -1,0 +1,20 @@
+{#
+Feature card (.cui-feature-card) — icon, heading, copy for feature grids.
+Props: icon (text/emoji/number), title, title_tag (default h3), align (center),
+id, class, attr.
+Slots: default (copy), icon (custom icon markup, e.g. inline svg).
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-feature-card', props.class|default(null)],
+    'data-align': props.align|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if slots.icon is defined %}
+        <span class="cui-feature-icon" aria-hidden="true">{{ slots.icon|raw }}</span>
+    {% elseif props.icon is defined %}
+        <span class="cui-feature-icon" aria-hidden="true">{{ props.icon }}</span>
+    {% endif %}
+    {% if props.title is defined %}<{{ title_tag }}>{{ props.title }}</{{ title_tag }}>{% endif %}
+    {{ slots.default|default('')|raw }}
+</article>

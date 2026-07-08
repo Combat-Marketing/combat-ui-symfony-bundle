@@ -1,0 +1,56 @@
+{#
+Event card (.cui-event-card) — date block, body, optional status pill.
+Props: title, title_tag (default h3), href, category, category_href,
+datetime (ISO start), end_datetime (ISO end — hidden <time> read by
+cui-day-planner), month, day, year (date-block segments), excerpt,
+meta (list of strings), status (upcoming|ongoing|past|cancelled),
+status_label (visible pill text), variant (featured|compact|flat|borderless),
+orient (stacked), category_key (data-category filter hook), id, class, attr.
+Slots: default (extra body content), date (custom date block),
+meta (raw <li> items), actions.
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-event-card', props.class|default(null)],
+    'data-status': props.status|default(null),
+    'data-variant': props.variant|default(null),
+    'data-orient': props.orient|default(null),
+    'data-category': props.category_key|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if slots.date is defined %}
+        {{ slots.date|raw }}
+    {% elseif props.month is defined or props.day is defined %}
+        <time class="cui-event-card-date"{% if props.datetime is defined %} datetime="{{ props.datetime }}"{% endif %}>
+            {% if props.month is defined %}<span class="cui-event-card-date-month">{{ props.month }}</span>{% endif %}
+            {% if props.day is defined %}<span class="cui-event-card-date-day">{{ props.day }}</span>{% endif %}
+            {% if props.year is defined %}<span class="cui-event-card-date-year">{{ props.year }}</span>{% endif %}
+        </time>
+    {% endif %}
+    {% if props.end_datetime is defined %}<time datetime="{{ props.end_datetime }}" hidden></time>{% endif %}
+    <div class="cui-stack">
+        {% if props.category is defined %}
+            <p class="cui-eyebrow">
+                {%- if props.category_href is defined %}<a href="{{ props.category_href }}">{{ props.category }}</a>{% else %}{{ props.category }}{% endif -%}
+            </p>
+        {% endif %}
+        {% if props.title is defined %}
+            <{{ title_tag }} class="cui-display" data-cui-event-title>
+                {%- if props.href is defined %}<a href="{{ props.href }}">{{ props.title }}</a>{% else %}{{ props.title }}{% endif -%}
+            </{{ title_tag }}>
+        {% endif %}
+        {% if slots.meta is defined %}
+            <ul class="cui-meta">{{ slots.meta|raw }}</ul>
+        {% elseif props.meta|default([]) is not empty %}
+            <ul class="cui-meta">
+                {% for item in props.meta %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        {% if props.excerpt is defined %}<p>{{ props.excerpt }}</p>{% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if slots.actions is defined %}
+            <div class="cui-cluster">{{ slots.actions|raw }}</div>
+        {% endif %}
+    </div>
+    {% if props.status_label is defined %}<span>{{ props.status_label }}</span>{% endif %}
+</article>

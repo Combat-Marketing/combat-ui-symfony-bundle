@@ -1,0 +1,14 @@
+{#
+Stat tile (.cui-stat) — big value with a label; lay out with .cui-grid (--cui-grid-min: 10rem).
+Props: value, label, align (start|center), id, class, attr.
+Slots: default (extra content below the label).
+#}
+<div{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-stat', props.class|default(null)],
+    'data-align': props.align|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if props.value is defined %}<span class="cui-stat-value">{{ props.value }}</span>{% endif %}
+    {% if props.label is defined %}<span class="cui-stat-label">{{ props.label }}</span>{% endif %}
+    {{ slots.default|default('')|raw }}
+</div>

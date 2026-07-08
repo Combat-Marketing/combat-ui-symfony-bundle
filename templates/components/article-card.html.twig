@@ -1,0 +1,55 @@
+{#
+Article / blog / news card (.cui-article-card).
+Props: title, title_tag (default h3), href, category, category_href, excerpt,
+image, image_alt, meta (list of strings — first entry reads at full strength),
+variant (featured|compact|flat|borderless), orient (row),
+category_key (data-category filter hook), id, class, attr.
+Slots: default (extra body content), media (replaces the image),
+meta (raw <li> items), actions.
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-article-card', props.class|default(null)],
+    'data-orient': props.orient|default(null),
+    'data-variant': props.variant|default(null),
+    'data-category': props.category_key|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if slots.media is defined %}
+        {{ slots.media|raw }}
+    {% elseif props.image is defined and props.variant|default(null) != 'compact' %}
+        {% if props.href is defined %}
+            <a class="cui-article-card-media" href="{{ props.href }}"{% if props.title is defined %} aria-label="{{ props.title }}"{% endif %}>
+                <img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}">
+            </a>
+        {% else %}
+            <div class="cui-article-card-media">
+                <img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}">
+            </div>
+        {% endif %}
+    {% endif %}
+    <div class="cui-stack">
+        {% if props.category is defined %}
+            <p class="cui-eyebrow">
+                {%- if props.category_href is defined %}<a href="{{ props.category_href }}">{{ props.category }}</a>{% else %}{{ props.category }}{% endif -%}
+            </p>
+        {% endif %}
+        {% if props.title is defined %}
+            <{{ title_tag }} class="cui-display">
+                {%- if props.href is defined %}<a href="{{ props.href }}">{{ props.title }}</a>{% else %}{{ props.title }}{% endif -%}
+            </{{ title_tag }}>
+        {% endif %}
+        {% if props.excerpt is defined %}<p>{{ props.excerpt }}</p>{% endif %}
+        {% if slots.meta is defined %}
+            <ul class="cui-meta">{{ slots.meta|raw }}</ul>
+        {% elseif props.meta|default([]) is not empty %}
+            <ul class="cui-meta">
+                {% for item in props.meta %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        {{ slots.default|default('')|raw }}
+        {% if slots.actions is defined %}
+            <div class="cui-cluster">{{ slots.actions|raw }}</div>
+        {% endif %}
+    </div>
+</article>

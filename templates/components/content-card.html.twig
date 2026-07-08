@@ -1,0 +1,14 @@
+{#
+General-purpose content card (.cui-content-card) — resource lists, compact page modules.
+Props: title, title_tag (default h3), variant (flat|borderless), id, class, attr.
+Slots: default (body).
+#}
+{% set title_tag = props.title_tag|default('h3') %}
+<article{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-surface', 'cui-content-card', props.class|default(null)],
+    'data-variant': props.variant|default(null),
+}|merge(props.attr|default({}))) }}>
+    {% if props.title is defined %}<{{ title_tag }}>{{ props.title }}</{{ title_tag }}>{% endif %}
+    {{ slots.default|default('')|raw }}
+</article>

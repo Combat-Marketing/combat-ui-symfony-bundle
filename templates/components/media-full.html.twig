@@ -1,0 +1,16 @@
+{#
+Full-width media wrapper (.cui-media-full) — constrains ratio, rounds corners.
+Props: src, alt, ratio (square|portrait|wide|auto), bleed (bool —
+data-bleed="full", escapes the container gutter; place inside a section,
+not a container), radius ('none'), id, class, attr.
+Slots: default (custom media markup — video, iframe, picture; replaces src).
+#}
+<div{{ cui_attrs({
+    id: props.id|default(null),
+    class: ['cui-media-full', props.class|default(null)],
+    'data-ratio': props.ratio|default(null),
+    'data-bleed': props.bleed|default(false) ? 'full' : null,
+    'data-radius': props.radius|default(null),
+}|merge(props.attr|default({}))) }}>
+    {%- if slots.default|default('')|trim %}{{ slots.default|raw }}{% elseif props.src is defined %}<img src="{{ props.src }}" alt="{{ props.alt|default('') }}">{% endif -%}
+</div>

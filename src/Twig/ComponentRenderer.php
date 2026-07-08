@@ -35,6 +35,7 @@ final class ComponentRenderer implements RuntimeExtensionInterface
 {
     /**
      * Custom element names registered by @combat-ui/core.
+     * @var array<string>
      */
     public const array ELEMENTS = [
         'article-filter',
