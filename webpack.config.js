@@ -21,6 +21,15 @@ Encore
     // stylesheet (see @combat-ui/core/auto).
     .addEntry('combat-ui', './public/js/index.js')
 
+    // Blocks/token manifest consumed by CMS wrapper bundles (the OpenDXP theme
+    // editor reads token groups and default values from it). Copied unversioned
+    // so wrappers can resolve it at a stable path.
+    .copyFiles({
+        from: './node_modules/@combat-ui/core/dist',
+        pattern: /^blocks\.json$/,
+        to: '[name].[ext]',
+    })
+
     .enableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())

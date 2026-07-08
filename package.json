@@ -1,6 +1,6 @@
 {
     "name": "@combat-ui/symfony-bundle",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "description": "A bundle that wraps the Combat UI framework into usable components for Symfony/Twig",
     "bugs": {
         "url": "https://github.com/Combat-Marketing/combat-ui-symfony-bundle/issues"
@@ -29,7 +29,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@combat-ui/core": "0.6.0",
+        "@combat-ui/core": "^0.6.1",
         "leaflet": "^1.9.4",
         "leaflet.markercluster": "^1.5.3"
     },
