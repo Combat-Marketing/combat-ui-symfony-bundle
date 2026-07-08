@@ -2,8 +2,9 @@
 Media card (.cui-media-card) — leading media above (or beside) a stacked body.
 Props: title, title_tag (default h3), eyebrow, metadata (.cui-metadata kicker —
 alternative to eyebrow), image, image_alt, href (wraps the media region in a
-link; the title also links), orient (row), media_position ('end' renders the
-media after the body), variant (flat|borderless), elevation (surface preset),
+link; the title also links), media_label (aria-label of the media link,
+defaults to title), orient (row), media_position ('end' renders the media
+after the body), variant (flat|borderless), elevation (surface preset),
 radius (surface preset), ratio (square|portrait|wide|auto), id, class, attr.
 Slots: default (body copy), media (custom media markup), actions.
 #}
@@ -13,7 +14,8 @@ Slots: default (body copy), media (custom media markup), actions.
         <div class="cui-media-card-media">{{ slots.media|raw }}</div>
     {%- elseif props.image is defined -%}
         {%- if props.href is defined -%}
-            <a class="cui-media-card-media" href="{{ props.href }}"{% if props.title is defined %} aria-label="{{ props.title }}"{% endif %}><img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}"></a>
+            {%- set media_label = props.media_label|default(props.title|default(null)) -%}
+            <a class="cui-media-card-media" href="{{ props.href }}"{% if media_label %} aria-label="{{ media_label }}"{% endif %}><img src="{{ props.image }}" alt="{{ props.image_alt|default('') }}"></a>
         {%- else -%}
             <img class="cui-media-card-media" src="{{ props.image }}" alt="{{ props.image_alt|default('') }}">
         {%- endif -%}
