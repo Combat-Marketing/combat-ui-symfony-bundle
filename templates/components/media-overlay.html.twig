@@ -3,7 +3,8 @@ Overlay card (.cui-media-overlay) — copy layered over a media background
 with a configurable scrim. Note: no .cui-surface here by design.
 Props: title, title_tag (default h3), eyebrow, image, image_alt,
 align (center|end — default bottom-start), scrim (solid|top|none — default
-bottom-up gradient), ratio (square|portrait|wide|auto), id, class, attr.
+bottom-up gradient), ratio (square|portrait|wide|auto), radius ('none'),
+id, class, attr.
 Slots: default (copy below the title), media (custom media markup), actions.
 #}
 {% set title_tag = props.title_tag|default('h3') %}
@@ -13,6 +14,7 @@ Slots: default (copy below the title), media (custom media markup), actions.
     'data-align': props.align|default(null),
     'data-scrim': props.scrim|default(null),
     'data-ratio': props.ratio|default(null),
+    'data-radius': props.radius|default(null),
 }|merge(props.attr|default({}))) }}>
     {% if slots.media is defined %}
         <div class="cui-media-overlay-media">{{ slots.media|raw }}</div>

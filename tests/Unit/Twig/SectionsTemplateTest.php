@@ -312,14 +312,14 @@ final class SectionsTemplateTest extends TwigIntegrationTestCase
         $twig = $this->createTwig([
             'index' => <<<'TWIG'
                 {% cui 'media-full' with {src: '/banner.jpg', ratio: 'wide', bleed: true, radius: 'none'} %}{% endcui %}
-                {% cui 'figure' with {src: '/schema.jpg', ratio: 'square', align: 'center', caption: 'Figure 1. Composition.'} %}{% endcui %}
+                {% cui 'figure' with {src: '/schema.jpg', ratio: 'square', align: 'center', radius: 'none', caption: 'Figure 1. Composition.'} %}{% endcui %}
                 TWIG,
         ]);
 
         $html = $twig->render('index');
 
         $this->assertHtmlContains('<div class="cui-media-full" data-ratio="wide" data-bleed="full" data-radius="none"><img src="/banner.jpg" alt=""></div>', $html);
-        $this->assertHtmlContains('<figure class="cui-figure" data-ratio="square" data-align="center">', $html);
+        $this->assertHtmlContains('<figure class="cui-figure" data-ratio="square" data-align="center" data-radius="none">', $html);
         $this->assertHtmlContains('<figcaption>Figure 1. Composition.</figcaption>', $html);
     }
 
@@ -334,7 +334,7 @@ final class SectionsTemplateTest extends TwigIntegrationTestCase
         $this->assertHtmlContains('<article class="cui-surface cui-media-card" data-orient="row">', $html);
         $this->assertHtmlContains('<a class="cui-media-card-media" href="/read" aria-label="Editorial spread"><img src="/cover.jpg" alt=""></a>', $html);
         $this->assertHtmlContains('<p class="cui-metadata">Pattern</p>', $html);
-        $this->assertHtmlContains('<h3><a href="/read">Editorial spread</a></h3>', $html);
+        $this->assertHtmlContains('<h3 class="cui-display"><a href="/read">Editorial spread</a></h3>', $html);
         $this->assertLessThan(strpos($html, '<div class="cui-stack">'), strpos($html, 'cui-media-card-media'), 'media leads by default');
     }
 
@@ -353,7 +353,7 @@ final class SectionsTemplateTest extends TwigIntegrationTestCase
     {
         $twig = $this->createTwig([
             'index' => <<<'TWIG'
-                {% cui 'media-overlay' with {align: 'center', scrim: 'solid', eyebrow: 'Campaign', title: 'Above the fold', image: '/campaign.jpg'} %}
+                {% cui 'media-overlay' with {align: 'center', scrim: 'solid', radius: 'none', eyebrow: 'Campaign', title: 'Above the fold', image: '/campaign.jpg'} %}
                     <p>Overlay copy.</p>
                     {% cui_slot 'actions' %}<a class="cui-button" data-variant="primary" href="/campaign">Read</a>{% endcui_slot %}
                 {% endcui %}
@@ -362,7 +362,7 @@ final class SectionsTemplateTest extends TwigIntegrationTestCase
 
         $html = $twig->render('index');
 
-        $this->assertHtmlContains('<article class="cui-media-overlay" data-align="center" data-scrim="solid">', $html);
+        $this->assertHtmlContains('<article class="cui-media-overlay" data-align="center" data-scrim="solid" data-radius="none">', $html);
         $this->assertStringNotContainsString('cui-surface', $html, 'overlay cards carry no surface chrome');
         $this->assertHtmlContains('<h3 class="cui-display">Above the fold</h3>', $html);
         $this->assertHtmlContains('<p>Overlay copy.</p>', $html);
