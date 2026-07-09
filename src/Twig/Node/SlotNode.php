@@ -38,6 +38,9 @@ class SlotNode extends Node
         $capture = new CaptureNode($this->getNode('body'), $this->getTemplateLine());
         $capture->setAttribute('raw', true);
 
+        // Each `{% cui_slot %}` occurrence is appended as its own list entry keyed by slot name, so that
+        // several tags targeting the same slot stay distinct — mirroring native web components, where each
+        // light-DOM node keeps its own `slot="..."` element. The renderer decides how to combine them.
         $compiler->addDebugInfo($this)
             ->write("if (!\\array_key_exists('_cui_slots', \$context)) {\n")
             ->indent()
@@ -49,7 +52,7 @@ class SlotNode extends Node
             ->write("}\n")
             ->write("\$context['_cui_slots'][(string) (")
             ->subcompile($this->getNode('name'))
-            ->raw(")] = ")
+            ->raw(")][] = ")
             ->subcompile($capture)
             ->raw("\n");
     }

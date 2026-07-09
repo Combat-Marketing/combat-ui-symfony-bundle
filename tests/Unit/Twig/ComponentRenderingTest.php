@@ -147,6 +147,33 @@ final class ComponentRenderingTest extends TwigIntegrationTestCase {
     }
 
     /**
+     * Several `{% cui_slot %}` tags with the same name each become their own light-DOM child, in source
+     * order, as multiple nodes may target one slot in native web components (e.g. carousel slides).
+     *
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function testRepeatedSlotNameRendersOneChildPerOccurrence(): void {
+        $twig = $this->createTwig([
+            'index' => <<<'TWIG'
+                {% cui 'carousel' %}
+                    {% cui_slot 'slide' %}<p>One</p>{% endcui_slot %}
+                    {% cui_slot 'slide' %}<p>Two</p>{% endcui_slot %}
+                    {% cui_slot 'slide' %}<p>Three</p>{% endcui_slot %}
+                {% endcui %}
+            TWIG,
+        ]);
+
+        $html = $twig->render('index');
+        $this->assertHtmlContains(
+            '<div slot="slide"><p>One</p></div><div slot="slide"><p>Two</p></div><div slot="slide"><p>Three</p></div>',
+            $html,
+        );
+    }
+
+    /**
      * @return void
      * @throws LoaderError
      * @throws RuntimeError

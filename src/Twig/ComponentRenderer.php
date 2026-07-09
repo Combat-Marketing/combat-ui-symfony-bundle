@@ -80,7 +80,8 @@ final class ComponentRenderer implements RuntimeExtensionInterface
      * @param Environment $twig
      * @param string $name
      * @param array<string, mixed> $props
-     * @param array<string, string> $slots Rendered slot HTML, keyed by slot name ("default" for the tag body).
+     * @param array<string, string|list<string>> $slots Rendered slot HTML keyed by slot name ("default" for the
+     *     tag body). A named slot may be a list when several `{% cui_slot %}` tags share the name.
      * @return string
      * @throws RuntimeError
      */
@@ -97,7 +98,14 @@ final class ComponentRenderer implements RuntimeExtensionInterface
         }
 
         $props = array_replace($this->componentDefaults[$name] ?? [], $props);
-        $context = ['name' => $name, 'props' => $props, 'slots' => $slots];
+
+        // Curated templates read each slot as a single string, so repeated `{% cui_slot %}` tags are joined.
+        // The generic element instead keeps every occurrence as its own light-DOM child (see namedSlotList()).
+        $flatSlots = array_map(
+            static fn (mixed $value): string => is_array($value) ? implode('', $value) : (string) $value,
+            $slots,
+        );
+        $context = ['name' => $name, 'props' => $props, 'slots' => $flatSlots];
 
         $loader = $twig->getLoader();
 
@@ -112,6 +120,7 @@ final class ComponentRenderer implements RuntimeExtensionInterface
             return $twig->render('@CombatUICore/components/_element.html.twig', $context + [
                     'tag' => 'cui-' . $name,
                     'attrs' => $this->propsToAttributes($props),
+                    'named_slots' => $this->namedSlotList($slots),
                 ]);
         }
 
@@ -140,6 +149,31 @@ final class ComponentRenderer implements RuntimeExtensionInterface
         }
 
         return $this->render($twig, $name, $props, $slots ?? []);
+    }
+
+    /**
+     * Flattens the slot map into an ordered list of `{name, content}` pairs, preserving repeated slots so the
+     * generic element emits one light-DOM child per `{% cui_slot %}` occurrence. The "default" slot (the tag
+     * body) is excluded — it is rendered separately.
+     *
+     * @param array<string, string|list<string>> $slots
+     * @return list<array{name: string, content: string}>
+     */
+    private function namedSlotList(array $slots): array
+    {
+        $list = [];
+
+        foreach ($slots as $slotName => $value) {
+            if ($slotName === 'default') {
+                continue;
+            }
+
+            foreach (is_array($value) ? $value : [$value] as $content) {
+                $list[] = ['name' => $slotName, 'content' => (string) $content];
+            }
+        }
+
+        return $list;
     }
 
     /**

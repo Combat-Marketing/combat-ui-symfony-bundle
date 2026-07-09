@@ -1,12 +1,11 @@
 {#
     Generic renderer for any Combat UI custom element that has no curated template. Context tag (string), attrs (hash),
-    slots (hash of rendered HTML). Named slots become light-DOM children, carrying a slot="..." attribute.
+    named_slots (ordered list of {name, content} — one entry per `{% cui_slot %}`, so repeated slot names stay
+    distinct light-DOM children), slots.default (the tag body).
 #}
 <{{ tag }}{{ cui_attrs(attrs|default({})) }}>
-    {%- for slot_name, slot_content in slots|default({}) -%}
-        {%- if slot_name != 'default' %}
-            <div slot="{{ slot_name }}">{{ slot_content|raw }}</div>
-        {%- endif -%}
+    {%- for slot in named_slots|default([]) -%}
+        <div slot="{{ slot.name }}">{{ slot.content|raw }}</div>
     {%- endfor -%}
     {{- slots.default|default('')|raw -}}
 </{{ tag }}>

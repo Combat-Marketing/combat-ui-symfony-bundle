@@ -35,7 +35,7 @@ Slots: default (body copy), media (custom media markup), actions.
         {% if props.metadata is defined %}<p class="cui-metadata">{{ props.metadata }}</p>{% endif %}
         {% if props.eyebrow is defined %}<p class="cui-eyebrow">{{ props.eyebrow }}</p>{% endif %}
         {% if props.title is defined %}
-            <{{ title_tag }}>
+            <{{ title_tag }} class="cui-display">
                 {%- if props.href is defined %}<a href="{{ props.href }}">{{ props.title }}</a>{% else %}{{ props.title }}{% endif -%}
             </{{ title_tag }}>
         {% endif %}
