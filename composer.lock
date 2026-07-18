@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f14787c987527c5c67415f43249c5b6a",
+    "content-hash": "41d931ba1efbeb0c68cad9044a5d5afc",
     "packages": [
         {
             "name": "psr/container",
@@ -2502,16 +2502,16 @@
         },
         {
             "name": "codeception/module-symfony",
-            "version": "3.10.0",
+            "version": "3.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-symfony.git",
-                "reference": "558c03856f283c299c2cb500c77400e38b67bd76"
+                "reference": "01cfa3e12917e396cf99cee1fb63a553865cad16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/558c03856f283c299c2cb500c77400e38b67bd76",
-                "reference": "558c03856f283c299c2cb500c77400e38b67bd76",
+                "url": "https://api.github.com/repos/Codeception/module-symfony/zipball/01cfa3e12917e396cf99cee1fb63a553865cad16",
+                "reference": "01cfa3e12917e396cf99cee1fb63a553865cad16",
                 "shasum": ""
             },
             "require": {
@@ -2602,9 +2602,9 @@
             "support": {
                 "docs": "https://codeception.com/docs/modules/Symfony",
                 "issues": "https://github.com/Codeception/module-symfony/issues",
-                "source": "https://github.com/Codeception/module-symfony/tree/3.10.0"
+                "source": "https://github.com/Codeception/module-symfony/tree/3.10.1"
             },
-            "time": "2026-06-27T00:34:04+00:00"
+            "time": "2026-07-10T19:56:20+00:00"
         },
         {
             "name": "codeception/stub",
@@ -2649,16 +2649,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.12.3",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "7ec62dc3f44aa218487dbed81a9bf9bc647be55d"
+                "reference": "dad89620b7a6edb60c15858442eb2e408b45d8f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/7ec62dc3f44aa218487dbed81a9bf9bc647be55d",
-                "reference": "7ec62dc3f44aa218487dbed81a9bf9bc647be55d",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/dad89620b7a6edb60c15858442eb2e408b45d8f4",
+                "reference": "dad89620b7a6edb60c15858442eb2e408b45d8f4",
                 "shasum": ""
             },
             "require": {
@@ -2748,7 +2748,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.12.3"
+                "source": "https://github.com/guzzle/psr7/tree/2.13.0"
             },
             "funding": [
                 {
@@ -2764,7 +2764,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-23T15:21:08+00:00"
+            "time": "2026-07-16T22:23:49+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -6067,7 +6067,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~8.4.0 || ~8.5.0"
+        "php": "~8.3.0 ||~8.4.0 || ~8.5.0"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
